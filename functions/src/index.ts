@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions'
 import * as express from 'express'
-import { addEntry, getAllEntries, updateEntry, deleteEntry } from './entryController'
+// import { addEntry, getAllEntries, updateEntry, deleteEntry } from './entryController'
+import { addEntry, getAllEntries,updateEntry, deleteEntry} from './entryController'
 
 
 const app = express()
