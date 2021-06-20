@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { db } from '../config/firebase'
-import HTTPError from '../models/HTTPError'
+import HTTPError from '../utilities/HTTPError'
 import returnSuccess from '../utilities/successHandler'
 
 //?? no need

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import HTTPError from '../models/HTTPError'
+import HTTPError from '../utilities/HTTPError'
 
 export default (err: HTTPError, req: Request, res: Response, next: NextFunction) => {
     console.log(err)

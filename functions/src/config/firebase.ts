@@ -1,5 +1,17 @@
 import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
+import firebase from 'firebase'
+var firebaseConfig = {
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: "",
+  measurementId: ""
+}
+
+firebase.initializeApp(firebaseConfig);
 
 admin.initializeApp({
   credential: admin.credential.cert({
@@ -11,4 +23,4 @@ admin.initializeApp({
 })
 
 const db = admin.firestore()
-export { admin, db }
+export { admin, db, firebase }

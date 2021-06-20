@@ -11,5 +11,5 @@
   "compileOnSave": true,
   "include": [
     "src"
-, "src/models/HTTPError.ts"  ]
+, "src/utilities/HTTPError.ts", "src/triggers/firestore/userTrigger.ts"  ]
 }
