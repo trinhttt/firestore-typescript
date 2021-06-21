@@ -10,7 +10,7 @@ export const createUserInFirestore = async (userDoc: UserRecord) => {
             createdAt: new Date().toISOString(),
         }
         const user = db.collection('users').doc()
-        return await user.set(newUser)//??return or not
+        await user.set(newUser)//??return or not
     } catch (error) {
         throw error
     }
@@ -18,13 +18,23 @@ export const createUserInFirestore = async (userDoc: UserRecord) => {
 
 export const deleteUserInFirestore = async (userDoc: UserRecord) => {
     try {
-        //userDoc.uid
-        const userRef = db.collection('users')
-        const users = await userRef.where('userId', '==', userDoc.uid).get()
-        users.forEach(doc => {
+        const user = db.collection('users').doc(userDoc.uid)
+        return await user.delete()
+    }
+    catch (error) {
+        throw error
+    }
+}
+
+export const deleteEntries = async (userDoc: UserRecord) => {
+    try {
+        const entryRef = db.collection('entries')
+        const entries = await entryRef.where('userId', '==', userDoc.uid).get()
+
+        entries.forEach(doc => {
             console.log(doc.id, '=>', doc.data());
-            doc.ref.delete()//??doc.ref
-          });
+            doc.ref.delete()
+        });
     }
     catch (error) {
         throw error

@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions"
-import { createUserInFirestore, deleteUserInFirestore } from './methods/userMethods'
+import { createUserInFirestore, deleteUserInFirestore, deleteEntries } from './methods/userMethods'
+
 export const onCreate = functions.auth
   .user()
   .onCreate((userRecord, _context) => {
@@ -12,4 +13,5 @@ export const onDelete = functions.auth
   .onDelete((userRecord, _context) => {
     console.log(`user ${userRecord.uid} deleted.`)
     deleteUserInFirestore(userRecord)
+    deleteEntries(userRecord)
   })

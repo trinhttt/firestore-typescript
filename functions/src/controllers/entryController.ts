@@ -2,30 +2,19 @@ import { Request, Response, NextFunction } from 'express'
 import { db } from '../config/firebase'
 import HTTPError from '../utilities/HTTPError'
 import returnSuccess from '../utilities/successHandler'
+import { Entry } from '../interfaces/entry'
 
-//?? no need
-// type EntryType = {
-//   title: string,
-//   text: string,
-//   userId: string,
-//   coverImageUrl: string
-// }
-
-// type Request = {
-//   body: EntryType,
-//   params: { userId: string, entryId: string }
-// }
 const addEntry = async (req: Request, res: Response, next: NextFunction) => {
     //   const { body: { title, text, coverImageUrl }, params: { userId } } = req
-    const { body: { title, text } } = req
+    const { body: { title, text, userId } } = req
 
     try {
         const entry = db.collection('entries').doc()
-        const entryObject = {
+        const entryObject: Entry = {
             id: entry.id,
             title,
             text,
-            //   userId,
+            userId
             //   coverImageUrl: coverImageUrl || ''
         }
         entry.set(entryObject)
@@ -46,11 +35,12 @@ const getAllEntries = async (req: Request, res: Response, next: NextFunction) =>
         //querySnapshot.forEach((doc: any) => allEntries.push(doc.data()))
         //   return res.status(200).json(allEntries)
 
-        const querySnapshot = await db.collection('entries').get()
-        let result: any = []
-        querySnapshot.forEach((doc) => {
-            const { title, text } = doc.data() // doc: QuerySnapshot, doc.data(): Object
-            return result.push({ title, text })
+        const entryDocs = await db.collection('entries').get()
+        let result: Array<Entry> = [] // Entry[] = []
+
+        entryDocs.forEach((doc: any) => {
+            const entryObject: Entry = doc.data() // doc: QuerySnapshot, doc.data(): Object
+            return result.push(entryObject)
         })
         returnSuccess(200, res, "Got list", result)
     } catch (error) {
@@ -84,8 +74,7 @@ const updateEntry = async (req: Request, res: Response, next: NextFunction) => {
         returnSuccess(200, res, "entry updated successfully", entryObject)
     }
     catch (error) {
-        //?? can't remove return >< 
-        return next(error)
+        next(error)
     }
 }
 

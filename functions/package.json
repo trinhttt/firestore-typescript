@@ -8,7 +8,7 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "local": "npm run build && firebase emulators:start --only functions,firestore,auth,database"
+    "local": "npm run build && firebase emulators:start --only functions,firestore,database"
   },
   "engines": {
     "node": "14"

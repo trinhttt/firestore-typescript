@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions'
 import * as express from 'express'
 // import { addEntry, getAllEntries, updateEntry, deleteEntry } from './entryController'
 import { addEntry, getAllEntries, updateEntry, deleteEntry } from './controllers/entryController'
-import { createUser, login }  from './controllers/authController'
+import { createUser, login } from './controllers/authController'
 import errorMiddleware from './middlewares/errorHandler'
 import isAuthorizedUser from './middlewares/authHandler'
 import * as AuthenticationTrigger from "./triggers/authenticationTrigger";

@@ -10,10 +10,14 @@ class HTTPError extends Error {
 
 //??Interface or class or both
 // interface CustomError extends Error {
-//     status: number
-//     message: string
+//     status?: number
+//     message: number
 // }
 
 // class HTTPError implements CustomError {
+//     name ='sss'
+//     message: string = 'fff'
+//     // status: number = 1
+//     // message: string = ""
 // }
 export default HTTPError
