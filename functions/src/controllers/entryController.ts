@@ -5,7 +5,6 @@ import returnSuccess from '../utilities/successHandler'
 import { Entry } from '../interfaces/entry'
 
 const addEntry = async (req: Request, res: Response, next: NextFunction) => {
-    //   const { body: { title, text, coverImageUrl }, params: { userId } } = req
     const { body: { title, text, userId } } = req
 
     try {
@@ -15,7 +14,7 @@ const addEntry = async (req: Request, res: Response, next: NextFunction) => {
             title,
             text,
             userId
-            //   coverImageUrl: coverImageUrl || ''
+            //   imageUrl: imageUrl || ''
         }
         entry.set(entryObject)
         returnSuccess(200, res, "entry added successfully", entryObject)
@@ -47,7 +46,6 @@ const getAllEntries = async (req: Request, res: Response, next: NextFunction) =>
         return next(error)
     }
 }
-
 
 const updateEntry = async (req: Request, res: Response, next: NextFunction) => {
     // const { body: { text, coverImageUrl }, params: { userId, entryId } } = req

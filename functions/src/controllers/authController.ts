@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express'
 import HTTPError from '../utilities/HTTPError'
 import { firebase } from '../config/firebase'
 import returnSuccess from '../utilities/successHandler'
-// import firebase from 'firebase'
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body
@@ -30,7 +29,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
             throw new HTTPError(400, "email/password is empty")
         }
         await firebase.auth().signInWithEmailAndPassword(email, password)
-        let token = await firebase.auth().currentUser?.getIdToken(true)//.getIdToken(true)
+        let token = await firebase.auth().currentUser?.getIdToken(true)
 
         // Make some custom tokens to be used with signInWithCustomToken()
         // const customToken = admin.auth().createCustomToken(userId ?? "")

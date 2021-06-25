@@ -22,6 +22,12 @@
     },
     "auth": {
       "port": 6001
+    },
+    "storage": {
+      "port": 7001
     }
+  },
+  "storage": {
+    "rules": "storage.rules"
   }
 }

@@ -5,8 +5,6 @@ import HTTPError from '../utilities/HTTPError'
 const isAuthorizedUser = async (req: Request, res: Response, next: NextFunction) => {
     const authorization = req.headers.authorization
     const token = authorization?.split('Bearer ')[1] ?? ""
-    const temp: number = Number("a")
-    console.log(temp)
     if (!token) {
         next(new HTTPError(401, "Empty token"))
     }

@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions"
-import { createUserInFirestore, deleteUserInFirestore, deleteEntries } from './methods/userMethods'
+import { createUserInFirestore, deleteUserInFirestore, deleteEntries } from './methods/authMethods'
 
 export const onCreate = functions.auth
   .user()

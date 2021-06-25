@@ -17,7 +17,6 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-
 const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req.params
     const { title } = req.body
