@@ -1,7 +1,20 @@
 import express from 'express'
-import { addEntry, getAllEntries, updateEntry, deleteEntry } from '../controllers/entryController'
+import {
+    addEntry,
+    getAllEntries,
+    updateEntry,
+    deleteEntry
+} from '../controllers/entryController'
+import {
+    uploadFileViaPath,
+    uploadFile,
+    deleteFile,
+    saveFile,
+    downloadFile,
+    getFiles,
+    deleteFiles
+} from '../controllers/fileController'
 import { createUser, login } from '../controllers/authController'
-import { uploadFileViaPath, uploadFile, deleteFile, saveFile, downloadFile } from '../controllers/fileController'
 import isAuthorizedUser from '../middlewares/authHandler'
 
 const router = express.Router();
@@ -20,5 +33,8 @@ router.post("/uploadFile/:entryId", uploadFile);
 router.delete("/deleteFile/:filename", deleteFile);
 router.post("/saveFile", saveFile);
 router.get("/downloadFile/:filename", downloadFile);
+router.get("/getFiles/:folder", getFiles);
+router.get("/deleteFiles/:folder", deleteFiles);
+
 
 export default router

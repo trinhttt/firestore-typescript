@@ -9,6 +9,8 @@ export const onCreate = functions.firestore
 export const onUpdate = functions.firestore
   .document("/users/{userId}")
   .onUpdate(async (change, context) => {
+    console.log(change.after.data())
+    console.log(change.before.data())
     console.log(`user ${context.params.userId} updated.`);
   });
 

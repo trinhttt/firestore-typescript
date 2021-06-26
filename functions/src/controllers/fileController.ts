@@ -32,7 +32,7 @@ export const uploadFileViaPath = async (req: Request, res: Response, next: NextF
       metadata: metadata
     })
     console.log(`${localPath} uploaded.`);
-    
+
     returnSuccess(201, res, `Uploaded ${req.body.filename}`, null)
   } catch (e) {
     next(e)
@@ -48,7 +48,7 @@ export const uploadFile = async (req: Request, res: Response, next: NextFunction
 
     let imageFileName: string;
     let imageToBeUploaded: { [key: string]: string } = {};//??KDL
-
+    const uuid = uuidv4();
     // @ts-ignore
     busBoy.on('file', (fieldName, file, fileName, encoding, mimeType) => {
       console.log(fieldName, file, fileName, encoding, mimeType);
@@ -59,8 +59,10 @@ export const uploadFile = async (req: Request, res: Response, next: NextFunction
       } else {
         // example: my.image.png
         const imageExtension = fileName.split(`.`)[fileName.split(`.`).length - 1];
-        // example: 56473829495738239.png
-        imageFileName = `${Math.round(Math.random() * 10000000000)}.${imageExtension}`;
+        // const randomName = Math.round(Math.random() * 10000000000) //56473829495738239
+
+        const randomName = Math.random().toString(36).substring(7);
+        imageFileName = `${randomName}.${imageExtension}`;
         // "/var/folders/lv/qh6x80rd0fb5x5zj23xp4pxm0000gn/T"
         const filePath = path.join(os.tmpdir(), imageFileName);
 
@@ -77,28 +79,44 @@ export const uploadFile = async (req: Request, res: Response, next: NextFunction
     });
 
     busBoy.on('finish', async () => {
+      const destination = `pics/${imageFileName}`;
       await bucket.upload(
         imageToBeUploaded.filePath,
         {
+          destination,
           resumable: false,
           metadata: {
             metadata: {
-              firebaseStorageDownloadTokens: uuidv4(),
+              firebaseStorageDownloadTokens: uuid,
               contentType: imageToBeUploaded.mimeType
             }
           }
         });
-      const imageUrl = `https://firebasestorage.googleapis.com/v0/b/vietnam-api-demo.appspot.com/o/${imageFileName}?alt=media`;
-      //req.user.handle
+
+      // delete a name and possibly the file it refers to
+      fs.unlinkSync(imageToBeUploaded.filePath);
+
+      //vietnam-api-demo.appspot.com
+      const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${imageFileName}?alt=media&token=${uuid}`;
+
       await db
-          .collection(`entries`)
-          .doc(req.params.entryId)
-          .update({ imageUrl });
+        .collection(`entries`)
+        .doc(req.params.entryId)
+        .update({ imageUrl })
+
       returnSuccess(201, res, `Uploaded image.`, { imageURL: imageUrl })
+    });
+    busBoy.on('error', (err: string) => {
+      // remove busboy pipe
+      req.unpipe(busBoy);
+
+      busBoy.removeAllListeners();
+
+      throw err
     });
 
     // @ts-ignore
-    busBoy.end(req.rawBody);
+    busBoy.end(req.rawBody);//??
     return
   } catch (err) {
     next(err)
@@ -142,7 +160,7 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
         destination: tempFilePath,
         // avoid error down image upload with gzip: The downloaded data did not match the data from the server. 
         // To be sure the content is the same, you should download the file again
-        validation: false 
+        validation: false
       });
     returnSuccess(200, res, "downloaded File", null)
   } catch (error) {
@@ -150,9 +168,31 @@ export const downloadFile = async (req: Request, res: Response, next: NextFuncti
   }
 }
 
-export const deleteAllFiles = async (req: Request, res: Response, next: NextFunction) => {
+export const getFiles = async (req: Request, res: Response, next: NextFunction) => {
+  const folder = req.params.folder
   try {
-    await bucket.deleteFiles();
+    //[File[], {}, Metadata] 
+    // folder: 'pics'
+    const [files] = await bucket.getFiles({ directory: `${folder}` });//??butket:Uncaught ReferenceError: bucket is not defined
+    let fileInfos: any[] = [];
+
+    files.forEach((file) => {
+      fileInfos.push({
+        name: file.name,
+        url: file.metadata.mediaLink,
+      });
+    });
+    returnSuccess(200, res, "Got files", fileInfos)
+  } catch (error) {
+    console.log(error);
+    next(error)
+  }
+};
+
+export const deleteFiles = async (req: Request, res: Response, next: NextFunction) => {
+  const folder = req.params.folder
+  try {
+    await bucket.deleteFiles({ prefix: `${folder}` });
     returnSuccess(200, res, "deleted all files", null)
   } catch (error) {
     next(error)
