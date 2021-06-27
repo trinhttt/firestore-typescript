@@ -14,13 +14,16 @@ import {
     getFiles,
     deleteFiles
 } from '../controllers/fileController'
-import { createUser, login } from '../controllers/authController'
+import { createUser, login, verifyOTP } from '../controllers/authController'
 import isAuthorizedUser from '../middlewares/authHandler'
+import { sendMail } from '../controllers/testMailController'
 
 const router = express.Router();
 router.use(express.urlencoded({ extended: true }));
 
 router.post('/users', createUser)
+router.post('/verifyOTP/:opt', verifyOTP)
+
 router.post('/login', login)
 // app.use(isAuthorizedUser)
 router.get('/entries', isAuthorizedUser, getAllEntries)
@@ -36,5 +39,6 @@ router.get("/downloadFile/:filename", downloadFile);
 router.get("/getFiles/:folder", getFiles);
 router.get("/deleteFiles/:folder", deleteFiles);
 
+router.post('/send-mail', sendMail)
 
 export default router

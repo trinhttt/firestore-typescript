@@ -4,8 +4,10 @@ import errorMiddleware from './middlewares/errorHandler'
 import * as AuthenticationTrigger from "./triggers/authenticationTrigger";
 import * as FirestoreTrigger from "./triggers/firestore/userTrigger";
 import * as StorageTrigger from "./triggers/storageTrigger";
-
+import * as dotenv from 'dotenv';
 import router from './routes/index'
+
+dotenv.config()
 
 const app = express()
 

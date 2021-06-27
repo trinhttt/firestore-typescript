@@ -7,11 +7,12 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2017",
-    "resolveJsonModule": true,//allow import json file
-    "esModuleInterop": true // (allow ignore * as)Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports 
+    "resolveJsonModule": true, //allow import json file
+    "esModuleInterop": true, // (allow ignore * as)Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports 
+    "noImplicitAny": false //  allow using external libraries without TypeScript definition files.
   },
   "compileOnSave": true,
   "include": [
     "src"
-, "src/utilities/HTTPError.ts", "src/triggers/firestore/userTrigger.ts"  ]
+  ],
 }

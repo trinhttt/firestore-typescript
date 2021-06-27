@@ -1,5 +1,5 @@
 import { db } from "../../config/firebase";
-import { User } from "../../interfaces/user";
+import User from "../../interfaces/user";
 import { UserRecord } from 'firebase-functions/lib/providers/auth';
 
 export const createUserInFirestore = async (userDoc: UserRecord) => {
