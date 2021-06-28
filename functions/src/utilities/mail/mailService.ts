@@ -12,8 +12,8 @@ export class MailService {
             port: process.env.SMTP_PORT,
             secure: false, // port 465 (smtps) thì true, các port khác để false
             auth: {
-                user: process.env.SMTP_AUTH_USERNAME,
-                pass: process.env.SMTP_AUTH_PASSWORD
+                user: process.env.SMTP_ADMIN_EMAIL,
+                pass: process.env.SMTP_ADMIN_PASSWORD
             }
         })
     }

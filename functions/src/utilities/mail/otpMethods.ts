@@ -5,7 +5,7 @@ import { db } from '../../config/firebase'
 
 async function generateOTP() {
     const digits = '0123456789'
-    const otpLength = 6
+    const otpLength = process.env.OTP_LENGTH || 6
 
     let OTP = '';
     while (OTP.length < otpLength) {

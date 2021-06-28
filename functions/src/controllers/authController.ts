@@ -45,7 +45,7 @@ const verifyOTP = async (req: Request, res: Response, next: NextFunction) => {
         }
         // Check otp expired
         const nowTime = new Date();
-        if (userData.otp_expired_datetime < nowTime) {
+        if (userData.otpExpiredTime < nowTime) {
             throw new HTTPError(404, "opt expired")
         }
 
