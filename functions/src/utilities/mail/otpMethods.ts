@@ -1,5 +1,5 @@
 import { MailService } from './mailService'
-import moment = require('moment');
+import moment from 'moment';
 import User from '../../interfaces/user'
 import { db } from '../../config/firebase'
 

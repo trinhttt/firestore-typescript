@@ -13,10 +13,14 @@ const app = express()
 
 app.use(router);
 app.use(errorMiddleware)
+app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
 
-module.exports = {
+export default {
   ...FirestoreTrigger,
   ...AuthenticationTrigger,
   ...StorageTrigger,
-  api: functions.https.onRequest(app)
+  api: functions.https.onRequest(app),
 }

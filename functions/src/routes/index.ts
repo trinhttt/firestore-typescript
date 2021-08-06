@@ -19,6 +19,8 @@ import isAuthorizedUser from '../middlewares/authHandler'
 import { sendMail } from '../controllers/testMailController'
 
 const router = express.Router();
+router.use(express.json());
+
 router.use(express.urlencoded({ extended: true }));
 
 router.post('/users', createUser)

@@ -199,41 +199,41 @@ export const deleteFiles = async (req: Request, res: Response, next: NextFunctio
   }
 }
 
-// import Multer from "multer"
-const Multer = require("multer");
-const maxSize = 2 * 1024 * 1024;
+// // import Multer from "multer"
+// const Multer = require("multer");
+// const maxSize = 2 * 1024 * 1024;
 
-let processFile = Multer({
-  storage: Multer.memoryStorage(),
-  limits: { fileSize: maxSize },
-}).single("file");
-//NOTE:req.file is always empty with functions.https.onRequest(app)
-export const uploadFileData = async (req: Request, res: Response) => {
-  try {
-    await processFile(req, res);
-    if (!req.file) {
-      res.status(400).send('No file uploaded.');
-      return;
-    }
+// let processFile = Multer({
+//   storage: Multer.memoryStorage(),
+//   limits: { fileSize: maxSize },
+// }).single("file");
+// //NOTE:req.file is always empty with functions.https.onRequest(app)
+// export const uploadFileData = async (req: Request, res: Response) => {
+//   try {
+//     await processFile(req, res);
+//     if (!req.file) {
+//       res.status(400).send('No file uploaded.');
+//       return;
+//     }
 
-    // Create a new blob in the bucket and upload the file data.
-    const blob = bucket.file(req.file.originalname);
-    const blobStream = blob.createWriteStream();
+//     // Create a new blob in the bucket and upload the file data.
+//     const blob = bucket.file(req.file.originalname);
+//     const blobStream = blob.createWriteStream();
 
-    blobStream.on('error', (err: any) => {
-      console.log(err);
-    });
+//     blobStream.on('error', (err: any) => {
+//       console.log(err);
+//     });
 
-    blobStream.on('finish', () => {
-      // The public URL can be used to directly access the file via HTTP.
-      // const publicUrl = format(
-      const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-      // );
-      res.status(200).send(publicUrl);
-    });
+//     blobStream.on('finish', () => {
+//       // The public URL can be used to directly access the file via HTTP.
+//       // const publicUrl = format(
+//       const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+//       // );
+//       res.status(200).send(publicUrl);
+//     });
 
-    blobStream.end(req.body.file.buffer);
-  } catch (err) {
-    console.log(err);
-  }
-}
+//     blobStream.end(req.body.file.buffer);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
